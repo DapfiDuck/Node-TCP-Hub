@@ -7,19 +7,20 @@ const server = net.createServer((c) => {
   // 'connection' listener
   console.log("client connected");
   clients.push(c);
+  writeAll(null, ">Client Connected: "+clients.length+" in Chat\r\n");
 
   c.on('end', () => {
     console.log('client disconnected');
-    //dc(c)
+    dc(c)
+    writeAll(null, ">Client Disconnected: "+clients.length+" Remaining\r\n");
   });
 
   c.on('error', () => {
-    c.write("400");
+    console.log("Error on client");
   });
 
   c.on('data', (data) => {
-
-    console.log(data.toString())
+    //console.log(data.toString())
     writeAll(c, data);
 
   });
@@ -41,8 +42,8 @@ function dc(client) {
   var index = clients.indexOf(client);
 
   if (index > -1) {
+    clients.splice(index, 1);
     console.log(clients.length);
-    //clients.splice(index, 1);
   } else {
     console.log("client not found");
   }
