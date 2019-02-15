@@ -6,7 +6,7 @@ const server = net.createServer((c) => {
 
   // 'connection' listener
   console.log("client connected");
-  //clients.push(c);
+  clients.push(c);
 
   c.on('end', () => {
     console.log('client disconnected');
