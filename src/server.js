@@ -20,12 +20,32 @@ const server = net.createServer((c) => {
   });
 
   c.on('data', (data) => {
+
+    datastr = data.toString();
+
+    if(datastr[0] == ">") {
+      command(c, datastr);
+      return;
+    }
+
     //console.log(data.toString())
     writeAll(c, data);
 
   });
 
 });
+
+function command(client, command) {
+
+  var cmd = command.substring(1, command.length-1);
+
+  if(cmd == "size") {
+    client.write(">"+clients.length.toString()+"\r\n");
+  }else{
+    client.write(">404\r\n");
+  }
+
+}
 
 function writeAll(exclude, buffer) {
 
